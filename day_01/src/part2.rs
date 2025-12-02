@@ -20,14 +20,18 @@ pub fn run() {
 
         if direction == 'L' {sign = -1;} else {sign = 1;}
         let num = sign * num;
+        let was_positive = dial > 0;
 
-        dial = (dial + num) % DIAL_SIZE;
+        dial += num;
+        count += (dial / DIAL_SIZE).abs() as i32;
 
-        if dial < 0 {
-            dial += DIAL_SIZE;
-        } else if dial == 0 {
+        if (dial < 0 && was_positive) || dial == 0 {
             count += 1;
         }
+
+        dial %= DIAL_SIZE;
+
+        if dial < 0 {dial += DIAL_SIZE;}
     }
 
     println!("{}", count);
