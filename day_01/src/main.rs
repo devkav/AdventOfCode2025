@@ -2,6 +2,9 @@ mod part1;
 mod part2;
 
 fn main() {
-    //part1::run();
-    part2::run();
+    let part1_result = part1::run();
+    let part2_result = part2::run();
+
+    println!("Part 1: {}", part1_result);
+    println!("Part 2: {}", part2_result);
 }
