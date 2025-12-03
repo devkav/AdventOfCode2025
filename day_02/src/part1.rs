@@ -1,6 +1,6 @@
 use std::fs;
 
-pub fn run() {
+pub fn run() -> u64 {
     let input = fs::read_to_string("./src/input.txt").expect("Could not read file");
     let input = input.trim();
     let tokens = input.split(",");
@@ -26,5 +26,5 @@ pub fn run() {
         }
     }
 
-    println!("{}", sum);
+    return sum;
 }

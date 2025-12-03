@@ -9,12 +9,12 @@ fn is_repeated(num_str: String, divisions: usize) -> bool {
         return is_repeated(num_str, divisions + 1);
     }
 
-    let steps = length / divisions;
-    let first_segment = &num_str[0..steps];
+    let step = length / divisions;
+    let first_segment = &num_str[0..step];
     let mut all_match = true;
 
     for i in 1..divisions {
-        let current_segment = &num_str[steps * i..steps * (i + 1)];
+        let current_segment = &num_str[step * i..step * (i + 1)];
 
         if current_segment != first_segment {
             all_match = false;
@@ -29,7 +29,7 @@ fn is_repeated(num_str: String, divisions: usize) -> bool {
     }
 }
 
-pub fn run() {
+pub fn run() -> u64 {
     let input = fs::read_to_string("./src/input.txt").expect("Could not read file");
     let input = input.trim();
     let tokens = input.split(",");
@@ -48,5 +48,5 @@ pub fn run() {
         }
     }
 
-    println!("{}", sum);
+    return sum;
 }
