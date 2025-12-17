@@ -3,8 +3,6 @@ use std::io::BufRead;
 use std::io::BufReader;
 use std::panic;
 
-const JOLTAGE_CHAR_LENGTH: u16 = 2;
-
 fn find_largest_number_after(string: &String, start: u16, end: u16) -> u16 {
     let mut max_num: u8 = 0;
     let mut max_num_index: u16 = 0;
@@ -28,7 +26,7 @@ fn find_largest_number_after(string: &String, start: u16, end: u16) -> u16 {
     return max_num_index;
 }
 
-pub fn run() -> usize {
+pub fn run(joltage_char_length: u16) -> usize {
     let file = File::open("./src/input.txt").expect("File was unable to be opened");
     let reader = BufReader::new(file);
     let mut sum = 0;
@@ -40,8 +38,8 @@ pub fn run() -> usize {
         let mut chars: Vec<char> = Vec::new();
         let mut start: u16 = 0;
 
-        for i in 1..=JOLTAGE_CHAR_LENGTH {
-            let num_chars_remaining: u16 = JOLTAGE_CHAR_LENGTH - i;
+        for i in 1..=joltage_char_length {
+            let num_chars_remaining: u16 = joltage_char_length - i;
             if i > 1 {start += 1}
             let end: u16 = (u_len - 1) - num_chars_remaining;
 
