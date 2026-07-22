@@ -1,7 +1,4 @@
-use std::fs;
-
-pub fn run() -> u64 {
-    let input = fs::read_to_string("./src/input.txt").expect("Could not read file");
+pub fn run(input: &str) -> u64 {
     let input = input.trim();
     let tokens = input.split(",");
     let mut sum: u64 = 0;
@@ -9,7 +6,7 @@ pub fn run() -> u64 {
     for token in tokens {
         let num_strs: Vec<&str> = token.split("-").collect();
         let nums = num_strs.iter().map(|&num| num.parse().expect("Number cannot be parsed")).collect::<Vec<u64>>();
-        
+
         let start: u64 = nums[0];
         let end: u64 = nums[1];
 

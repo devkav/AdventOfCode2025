@@ -1,19 +1,12 @@
-use std::fs::File;
-use std::io::BufRead;
-use std::io::BufReader;
-
 const MIN_NUM_ROLLS: usize = 4;
 
-pub fn run() -> usize {
-    let file = File::open("./src/input.txt").expect("File was unable to be opened");
-    let reader = BufReader::new(file);
+pub fn run(input: &str) -> usize {
     let mut grid: Vec<Vec<bool>> = Vec::new();
     let mut count = 0;
     let mut iter_count = 0;
     let mut first = true;
 
-    for line in reader.lines() {
-        let line = line.expect("Should be able to read line");
+    for line in input.lines() {
         let line = line.trim();
         let current_row: Vec<bool> = line.chars().map(|x| x == '@').collect();
 

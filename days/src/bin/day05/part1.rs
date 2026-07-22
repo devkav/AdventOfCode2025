@@ -1,17 +1,9 @@
-use std::fs::File;
-use std::io::BufRead;
-use std::io::BufReader;
-
-pub fn run() -> usize {
-    let file = File::open("./src/input.txt").expect("File was unable to be opened");
-    let reader = BufReader::new(file);
-
+pub fn run(input: &str) -> usize {
     let mut count = 0;
     let mut ranges: Vec<(usize, usize)> = Vec::new();
     let mut planning = true;
 
-    for line in reader.lines() {
-        let line = line.expect("Should be able to read line");
+    for line in input.lines() {
         let line = line.trim();
 
         if line == "" {

@@ -1,17 +1,10 @@
-use std::fs::File;
-use std::io::BufRead;
-use std::io::BufReader;
-
 const DIAL_SIZE: i16 = 100;
 
-pub fn run() -> i32 {
-    let file = File::open("./src/input.txt").expect("File was unable to be opened");
-    let reader = BufReader::new(file);
+pub fn run(input: &str) -> i32 {
     let mut dial: i16 = 50;
     let mut count: i32 = 0;
 
-    for line in reader.lines() {
-        let line = line.expect("Should be able to read line");
+    for line in input.lines() {
         let line = line.trim();
 
         let direction = line.chars().nth(0).unwrap();
@@ -20,14 +13,18 @@ pub fn run() -> i32 {
 
         if direction == 'L' {sign = -1;} else {sign = 1;}
         let num = sign * num;
+        let was_positive = dial > 0;
 
-        dial = (dial + num) % DIAL_SIZE;
+        dial += num;
+        count += (dial / DIAL_SIZE).abs() as i32;
 
-        if dial < 0 {
-            dial += DIAL_SIZE;
-        } else if dial == 0 {
+        if (dial < 0 && was_positive) || dial == 0 {
             count += 1;
         }
+
+        dial %= DIAL_SIZE;
+
+        if dial < 0 {dial += DIAL_SIZE;}
     }
 
     return count;
