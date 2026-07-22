@@ -3,7 +3,7 @@ const MULT: char = '*';
 
 pub fn run(input: &str) -> usize {
     let mut operators: Vec<char> = Vec::new();
-    let mut column_width = 0;
+    let mut column_widths: Vec<(usize, usize)> = Vec::new();
 
     for line in input.lines() {
         let first_char = line.chars().nth(0).unwrap();
@@ -12,30 +12,31 @@ pub fn run(input: &str) -> usize {
             continue;
         }
 
-        let mut next_column_found = false;
-        let mut i = 1;
+        let mut current_width = 0;
+        let mut last_start = 0;
+        let mut last_operator = line.chars().nth(0).unwrap();
 
-        while !next_column_found {
+        for i in 1..line.len() {
             let current = line.chars().nth(i).unwrap();
 
             if current == ADD || current == MULT {
-                next_column_found = true;
-                column_width = i;
+                operators.push(last_operator);
+                column_widths.push((last_start, current_width));
+                last_start = i;
+                last_operator = current;
+                current_width = 0;
                 continue;
             }
 
-            i += 1;
+            current_width += 1
         }
 
-        operators = line.trim()
-            .split(" ")
-            .filter(|operator| operator.len() > 0)
-            .map(|char_str| char_str.chars().next().unwrap())
-            .collect();
+        operators.push(last_operator);
+        column_widths.push((last_start, current_width + 1));
     }
 
     let num_columns = operators.len();
-    let mut problems: Vec<Vec<String>> = vec![vec![String::new(); column_width]; num_columns];
+    let mut problems: Vec<Vec<String>> = vec![Vec::new(); num_columns];
 
     for line in input.lines() {
         let first_char = line.chars().nth(0).unwrap();
@@ -44,15 +45,18 @@ pub fn run(input: &str) -> usize {
             continue;
         }
 
-        for (i, num_char) in line.chars().enumerate() {
-            if i == column_width -1 || num_char == ' ' {
-                continue;
+        for column_index in 0..column_widths.len() {
+            let (column_start, column_width) = column_widths[column_index];
+
+            if problems[column_index].len() == 0 {
+                problems[column_index] = vec![String::new(); column_width];
             }
 
-            let column_num = i / column_width;
-            let num_pos = i % column_width;
+            for i in 0..column_width {
+                let current = line.chars().nth(column_start + i).unwrap();
+                problems[column_index][i].push(current);
 
-            problems[column_num][num_pos].push(num_char);
+            }
         }
     }
 
