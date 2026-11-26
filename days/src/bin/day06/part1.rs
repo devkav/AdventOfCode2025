@@ -11,13 +11,17 @@ pub fn run(input: &str) -> usize {
             continue;
         }
 
-        operators = line.trim()
+        operators = line
+            .trim()
             .split(" ")
             .filter(|operator| operator.len() > 0)
             .collect();
     }
 
-    let mut results: Vec<usize> = operators.iter().map(|operator| if operator == &ADD {0} else {1}).collect();
+    let mut results: Vec<usize> = operators
+        .iter()
+        .map(|operator| if operator == &ADD { 0 } else { 1 })
+        .collect();
 
     for line in input.lines() {
         let first_char = line.chars().nth(0).unwrap().to_string();
@@ -26,7 +30,8 @@ pub fn run(input: &str) -> usize {
             continue;
         }
 
-        let nums: Vec<usize> = line.trim()
+        let nums: Vec<usize> = line
+            .trim()
             .split(" ")
             .filter(|num| num.len() > 0)
             .map(|num| num.parse().unwrap())

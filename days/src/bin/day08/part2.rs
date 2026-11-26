@@ -1,6 +1,6 @@
-use std::{collections::{HashMap, HashSet}};
+use std::collections::HashMap;
 
-use utils::{coordinate_3d::Coordinate3D, coordinate_generic::Coordinate, network};
+use utils::{coordinate_3d::Coordinate3D, coordinate_generic::Coordinate};
 
 pub fn run(input: &str) -> usize {
     let mut coordinates: Vec<Coordinate3D> = Vec::new();
@@ -14,7 +14,10 @@ pub fn run(input: &str) -> usize {
         }
 
         let num_strs: Vec<&str> = line.trim().split(",").collect();
-        let nums: Vec<usize> = num_strs.iter().map(|num| num.parse::<usize>().unwrap()).collect();
+        let nums: Vec<usize> = num_strs
+            .iter()
+            .map(|num| num.parse::<usize>().unwrap())
+            .collect();
 
         if nums.len() != 3 {
             panic!("Expected 3 nums, got {}", nums.len());
@@ -34,7 +37,7 @@ pub fn run(input: &str) -> usize {
         let coordinate = &coordinates[i];
         network_pairings.insert(i, i);
 
-        for j in i+1..coordinates.len() {
+        for j in i + 1..coordinates.len() {
             let other = &coordinates[j];
 
             sorted_weights.push((coordinate.distance(other), i, j));

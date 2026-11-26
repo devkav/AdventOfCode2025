@@ -1,7 +1,9 @@
 fn is_repeated(num_str: String, divisions: usize) -> bool {
     let length = num_str.chars().count();
 
-    if divisions > length {return false;}
+    if divisions > length {
+        return false;
+    }
 
     if length % divisions != 0 {
         return is_repeated(num_str, divisions + 1);
@@ -21,7 +23,7 @@ fn is_repeated(num_str: String, divisions: usize) -> bool {
     }
 
     if !all_match {
-        return is_repeated(num_str, divisions + 1)
+        return is_repeated(num_str, divisions + 1);
     } else {
         return all_match;
     }
@@ -34,14 +36,19 @@ pub fn run(input: &str) -> u64 {
 
     for token in tokens {
         let num_strs: Vec<&str> = token.split("-").collect();
-        let nums = num_strs.iter().map(|&num| num.parse().expect("Number cannot be parsed")).collect::<Vec<u64>>();
+        let nums = num_strs
+            .iter()
+            .map(|&num| num.parse().expect("Number cannot be parsed"))
+            .collect::<Vec<u64>>();
 
         let start: u64 = nums[0];
         let end: u64 = nums[1];
 
-        for i in start..end+1 {
+        for i in start..end + 1 {
             let current_num_str = i.to_string();
-            if is_repeated(current_num_str, 2) {sum += i}
+            if is_repeated(current_num_str, 2) {
+                sum += i
+            }
         }
     }
 

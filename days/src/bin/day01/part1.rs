@@ -11,7 +11,11 @@ pub fn run(input: &str) -> i32 {
         let num: i16 = (&line[1..]).parse().expect("Failed to parse string to i16");
         let sign: i16;
 
-        if direction == 'L' {sign = -1;} else {sign = 1;}
+        if direction == 'L' {
+            sign = -1;
+        } else {
+            sign = 1;
+        }
         let num = sign * num;
 
         dial = (dial + num) % DIAL_SIZE;

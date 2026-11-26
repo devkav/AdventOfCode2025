@@ -1,6 +1,5 @@
 use crate::coordinate_generic::Coordinate;
 
-
 #[derive(PartialEq, Eq, Hash, Clone, Debug)]
 pub struct Network<T: Coordinate> {
     pub points: Vec<T>,

@@ -1,7 +1,6 @@
+use std::cmp::max;
 use std::collections::HashMap;
 use utils::{coordinate_2d::Coordinate2D, coordinate_generic::Coordinate};
-use std::cmp::max;
-
 
 pub fn run(input: &str) -> usize {
     let mut tiles: Vec<Coordinate2D> = Vec::new();
@@ -15,7 +14,8 @@ pub fn run(input: &str) -> usize {
             continue;
         }
 
-        let nums: Vec<usize> = line.trim()
+        let nums: Vec<usize> = line
+            .trim()
             .split(",")
             .map(|num_str| num_str.parse::<usize>().unwrap())
             .collect();
@@ -59,7 +59,7 @@ pub fn run(input: &str) -> usize {
         (top_left, Vec::new()),
         (top_right, Vec::new()),
         (bottom_left, Vec::new()),
-        (bottom_right, Vec::new())
+        (bottom_right, Vec::new()),
     ]);
 
     for tile in tiles {

@@ -14,7 +14,9 @@ pub fn run(input: &str) -> usize {
 
         if planning {
             let tokens: Vec<&str> = line.split("-").collect();
-            if tokens.len() != 2 {panic!("Expected 2 tokens, got: {}", tokens.len())}
+            if tokens.len() != 2 {
+                panic!("Expected 2 tokens, got: {}", tokens.len())
+            }
 
             let start: usize = tokens[0].parse().expect("Unable to parse token");
             let end: usize = tokens[1].parse().expect("Unable to parse token");
@@ -33,5 +35,5 @@ pub fn run(input: &str) -> usize {
         }
     }
 
-   return count;
+    return count;
 }

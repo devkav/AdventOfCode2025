@@ -32,13 +32,15 @@ pub fn run(input: &str, joltage_char_length: u16) -> usize {
 
         for i in 1..=joltage_char_length {
             let num_chars_remaining: u16 = joltage_char_length - i;
-            if i > 1 {start += 1}
+            if i > 1 {
+                start += 1
+            }
             let end: u16 = (u_len - 1) - num_chars_remaining;
 
             let char_index: u16 = find_largest_number_after(&line, start, end);
             let current_char = match line.chars().nth(char_index as usize) {
                 Some(i) => i,
-                None => panic!("Index in line out of range, index: {}", char_index)
+                None => panic!("Index in line out of range, index: {}", char_index),
             };
 
             chars.push(current_char);

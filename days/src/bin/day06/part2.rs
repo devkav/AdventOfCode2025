@@ -55,7 +55,6 @@ pub fn run(input: &str) -> usize {
             for i in 0..column_width {
                 let current = line.chars().nth(column_start + i).unwrap();
                 problems[column_index][i].push(current);
-
             }
         }
     }
@@ -65,7 +64,7 @@ pub fn run(input: &str) -> usize {
     for (problem_index, problem) in problems.iter().enumerate() {
         for num_str in problem {
             if num_str.trim().len() == 0 {
-                continue
+                continue;
             }
 
             let operator = operators[problem_index];
@@ -74,12 +73,12 @@ pub fn run(input: &str) -> usize {
             if operator == ADD {
                 results[problem_index] = match results[problem_index] {
                     None => Some(num),
-                    Some(value) => Some(value + num)
+                    Some(value) => Some(value + num),
                 };
             } else if operator == MULT {
                 results[problem_index] = match results[problem_index] {
                     None => Some(num),
-                    Some(value) => Some(value * num)
+                    Some(value) => Some(value * num),
                 };
             } else {
                 panic!("Unknown operator: {operator}");
@@ -87,5 +86,7 @@ pub fn run(input: &str) -> usize {
         }
     }
 
-    return results.iter().fold(0, |acc, result| acc + if result.is_some() {result.unwrap()} else {0});
+    return results.iter().fold(0, |acc, result| {
+        acc + if result.is_some() { result.unwrap() } else { 0 }
+    });
 }

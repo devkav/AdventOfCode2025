@@ -17,10 +17,8 @@ impl fmt::Display for Coordinate2D {
 
 impl Coordinate for Coordinate2D {
     fn distance(&self, other: &Coordinate2D) -> f64 {
-        let d_sqrd = (
-            (max(self.x, other.x) - min(self.x, other.x)).pow(2) +
-            (max(self.y, other.y) - min(self.y, other.y)).pow(2)
-        ) as f64;
+        let d_sqrd = ((max(self.x, other.x) - min(self.x, other.x)).pow(2)
+            + (max(self.y, other.y) - min(self.y, other.y)).pow(2)) as f64;
 
         return d_sqrd.sqrt();
     }

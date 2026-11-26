@@ -1,5 +1,8 @@
 use core::fmt;
-use std::{cmp::{max, min}, collections::HashSet};
+use std::{
+    cmp::{max, min},
+    collections::HashSet,
+};
 
 use crate::coordinate_generic::Coordinate;
 
@@ -19,11 +22,9 @@ impl fmt::Display for Coordinate3D {
 
 impl Coordinate for Coordinate3D {
     fn distance(&self, other: &Coordinate3D) -> f64 {
-        let d_sqrd = (
-            (max(self.x, other.x) - min(self.x, other.x)).pow(2) +
-            (max(self.y, other.y) - min(self.y, other.y)).pow(2) + 
-            (max(self.z, other.z) - min(self.z, other.z)).pow(2)
-        ) as f64;
+        let d_sqrd = ((max(self.x, other.x) - min(self.x, other.x)).pow(2)
+            + (max(self.y, other.y) - min(self.y, other.y)).pow(2)
+            + (max(self.z, other.z) - min(self.z, other.z)).pow(2)) as f64;
 
         return d_sqrd.sqrt();
     }
@@ -39,7 +40,7 @@ impl Coordinate3D {
 
         return width * height * length;
     }
-    
+
     pub fn graph_contains(&self, other: &Self, coordinates: &Vec<Coordinate3D>) -> bool {
         let mut queue: Vec<&Coordinate3D> = vec![self];
         let mut visited: HashSet<&Coordinate3D> = HashSet::from([self]);

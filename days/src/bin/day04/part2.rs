@@ -34,22 +34,34 @@ pub fn run(input: &str) -> usize {
                 let mut surrounding_rolls = 0;
 
                 for y_add in -1..=1 as isize {
-                    if surrounding_rolls >= MIN_NUM_ROLLS {break}
+                    if surrounding_rolls >= MIN_NUM_ROLLS {
+                        break;
+                    }
 
                     for x_add in -1..=1 as isize {
-                        if surrounding_rolls >= MIN_NUM_ROLLS {break}
-                        if y_add == 0 && x_add == 0 {continue}
+                        if surrounding_rolls >= MIN_NUM_ROLLS {
+                            break;
+                        }
+                        if y_add == 0 && x_add == 0 {
+                            continue;
+                        }
 
                         let current_x: isize = (x as isize) + x_add;
                         let current_y: isize = (y as isize) + y_add;
 
-                        if current_y < 0 || current_y > (num_rows as isize) - 1 {continue}
-                        if current_x < 0 || current_x > (num_cols as isize) - 1 {continue}
+                        if current_y < 0 || current_y > (num_rows as isize) - 1 {
+                            continue;
+                        }
+                        if current_x < 0 || current_x > (num_cols as isize) - 1 {
+                            continue;
+                        }
 
                         let current_x = current_x as usize;
                         let current_y = current_y as usize;
 
-                        if grid[current_y][current_x] {surrounding_rolls += 1;}
+                        if grid[current_y][current_x] {
+                            surrounding_rolls += 1;
+                        }
                     }
                 }
 

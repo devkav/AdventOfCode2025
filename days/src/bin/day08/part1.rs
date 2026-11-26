@@ -1,9 +1,9 @@
-use std::{collections::{HashMap, HashSet}};
+use std::collections::{HashMap, HashSet};
 
 use utils::{coordinate_3d::Coordinate3D, coordinate_generic::Coordinate};
 
 pub fn run(input: &str, test: bool) -> usize {
-    let num_connections = if test {10} else {1000};
+    let num_connections = if test { 10 } else { 1000 };
 
     let mut coordinates: Vec<Coordinate3D> = Vec::new();
     let mut sorted_weights: Vec<(f64, usize, usize)> = Vec::new();
@@ -14,7 +14,10 @@ pub fn run(input: &str, test: bool) -> usize {
         }
 
         let num_strs: Vec<&str> = line.trim().split(",").collect();
-        let nums: Vec<usize> = num_strs.iter().map(|num| num.parse::<usize>().unwrap()).collect();
+        let nums: Vec<usize> = num_strs
+            .iter()
+            .map(|num| num.parse::<usize>().unwrap())
+            .collect();
 
         if nums.len() != 3 {
             panic!("Expected 3 nums, got {}", nums.len());
@@ -33,7 +36,7 @@ pub fn run(input: &str, test: bool) -> usize {
     for i in 0..coordinates.len() {
         let coordinate = &coordinates[i];
 
-        for j in i+1..coordinates.len() {
+        for j in i + 1..coordinates.len() {
             let other = &coordinates[j];
 
             sorted_weights.push((coordinate.distance(other), i, j));
