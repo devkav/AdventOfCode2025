@@ -1,73 +1,94 @@
-use std::collections::{HashMap, HashSet};
+use std::{collections::{HashMap, HashSet}};
 
-#[derive(Copy, Clone, PartialEq, Eq, Hash)]
-struct Coordinate {
-    x: i64,
-    y: i64,
-    z: i64,
-}
+use utils::{coordinate_3d::Coordinate3D, coordinate_generic::Coordinate};
 
-impl Coordinate {
-    fn distance(&self, other: &Coordinate) -> f64 {
-        let d_sqrd = ((self.x - other.x).pow(2) +
-            (self.y - other.y).pow(2) +
-            (self.z - other.z).pow(2)) as f64;
+pub fn run(input: &str, test: bool) -> usize {
+    let num_connections = if test {10} else {1000};
 
-        return d_sqrd.sqrt();
-    }
-}
-
-pub fn run(input: &str) -> usize {
-    let mut coordinates: Vec<Coordinate> = Vec::new();
-    let mut networks: HashMap<Coordinate, HashSet<Coordinate>> = HashMap::new();
+    let mut coordinates: Vec<Coordinate3D> = Vec::new();
+    let mut sorted_weights: Vec<(f64, usize, usize)> = Vec::new();
 
     for line in input.lines() {
+        if line.trim().is_empty() {
+            continue;
+        }
+
         let num_strs: Vec<&str> = line.trim().split(",").collect();
-        let nums: Vec<i64> = num_strs.iter().map(|num| num.parse::<i64>().unwrap()).collect();
+        let nums: Vec<usize> = num_strs.iter().map(|num| num.parse::<usize>().unwrap()).collect();
 
         if nums.len() != 3 {
             panic!("Expected 3 nums, got {}", nums.len());
         }
 
-        let coordinate = Coordinate {
+        let coordinate = Coordinate3D {
             x: nums[0],
             y: nums[1],
             z: nums[2],
+            connections: vec![],
         };
 
-        let network: HashSet<Coordinate> = HashSet::from([coordinate]);
         coordinates.push(coordinate);
-        networks.insert(coordinate, network);
     }
 
-    let num_coordinates = coordinates.len();
+    for i in 0..coordinates.len() {
+        let coordinate = &coordinates[i];
 
-    for i in 0..num_coordinates {
-        let coordinate = coordinates[i];
-        let mut closest: Option<Coordinate> = None;
-        let mut closest_distance: Option<f64> = None;
+        for j in i+1..coordinates.len() {
+            let other = &coordinates[j];
 
-        for j in 0..num_coordinates {
-            if i == j {
-                continue;
-            }
-            let other = coordinates[j];
-            let current_distance = coordinate.distance(&other);
-
-            if closest.is_none() || current_distance < closest_distance.unwrap() {
-                closest = Some(other);
-                closest_distance = Some(current_distance);
-            }
-        }
-
-        let closest = closest.unwrap();
-        let closest_network = networks.get(&closest).unwrap();
-        let current_network = networks.get(&coordinate).unwrap();
-
-        for network_member in closest_network {
-            //current_network.insert(network_member.clone());
+            sorted_weights.push((coordinate.distance(other), i, j));
         }
     }
 
-    return 0;
+    sorted_weights.sort_by(|a, b| a.0.total_cmp(&b.0));
+
+    for i in 0..num_connections {
+        let edge = sorted_weights[i];
+        let a_index = edge.1;
+        let b_index = edge.2;
+        let a = &coordinates[a_index];
+        let b = &coordinates[b_index];
+        let same_graph = a.graph_contains(b, &coordinates);
+
+        if !same_graph {
+            coordinates[a_index].add_connection(b_index);
+            coordinates[b_index].add_connection(a_index);
+        }
+    }
+
+    let mut network_pairings: HashMap<usize, usize> = HashMap::new();
+    let mut network_sizes: HashMap<usize, usize> = HashMap::new();
+
+    for i in 0..coordinates.len() {
+        if network_pairings.contains_key(&i) {
+            continue;
+        }
+
+        let mut queue: Vec<usize> = vec![i];
+        let mut visited: HashSet<usize> = HashSet::from([i]);
+
+        while queue.len() > 0 {
+            let current_index = queue.pop().unwrap();
+            let current = &coordinates[current_index];
+            network_pairings.insert(current_index, i);
+
+            for connection_index in &current.connections {
+                if visited.contains(connection_index) {
+                    continue;
+                }
+
+                visited.insert(*connection_index);
+                queue.push(*connection_index);
+            }
+        }
+
+        network_sizes.insert(i, visited.len());
+    }
+
+    let mut network_sizes_arr: Vec<usize> = network_sizes.into_values().collect();
+    network_sizes_arr.sort();
+    network_sizes_arr.reverse();
+    let total = network_sizes_arr[..3].iter().product();
+
+    return total;
 }
